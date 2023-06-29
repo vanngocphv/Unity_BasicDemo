@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 16114d403eabb53438de032c6f0d1deb
 ModelImporter:
-  serializedVersion: 20200
+  serializedVersion: 21300
   internalIDToNameTable:
   - first:
       74: 6564411413370888346
@@ -17,6 +17,7 @@ ModelImporter:
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
     motionNodeName: 
     rigImportErrors: 
     rigImportWarnings: 
@@ -57,7 +58,102 @@ ModelImporter:
       heightFromFeet: 0
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
+      curves:
+      - name: IKLeftFoot
+        curve:
+          serializedVersion: 2
+          curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 2.857143
+            outSlope: 2.857143
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.35
+            value: 1
+            inSlope: -0.001560977
+            outSlope: -0.001560977
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.45678434
+          - serializedVersion: 3
+            time: 0.5295117
+            value: 0.99910736
+            inSlope: 0.000009787438
+            outSlope: -0.7228622
+            tangentMode: 1
+            weightedMode: 0
+            inWeight: 0.044839013
+            outWeight: 0.047211472
+          - serializedVersion: 3
+            time: 1
+            value: 0
+            inSlope: -2.123554
+            outSlope: -2.123554
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          preInfinity: 2
+          postInfinity: 2
+          rotationOrder: 4
+      - name: IKRightFoot
+        curve:
+          serializedVersion: 2
+          curve:
+          - serializedVersion: 3
+            time: 0
+            value: 1
+            inSlope: -0.047527365
+            outSlope: -0.047527365
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.12346251
+          - serializedVersion: 3
+            time: 0.04
+            value: 1
+            inSlope: 0.09488049
+            outSlope: -1.3572876
+            tangentMode: 1
+            weightedMode: 0
+            inWeight: 0.49160385
+            outWeight: 0.078067526
+          - serializedVersion: 3
+            time: 0.30408502
+            value: 0
+            inSlope: -0.001560977
+            outSlope: -0.001560977
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.45678434
+          - serializedVersion: 3
+            time: 0.8
+            value: 0
+            inSlope: 0.000009787438
+            outSlope: 0.000009787438
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.044839013
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 5.0000005
+            outSlope: 5.0000005
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          preInfinity: 2
+          postInfinity: 2
+          rotationOrder: 4
       events:
       - time: 0.3221903
         functionName: OnFootstep
@@ -89,6 +185,7 @@ ModelImporter:
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
+    nodeNameCollisionStrategy: 0
     fileIdsGeneration: 2
     swapUVChannels: 0
     generateSecondaryUV: 0
@@ -100,6 +197,7 @@ ModelImporter:
     skinWeightsMode: 0
     maxBonesPerVertex: 4
     minBoneWeight: 0.001
+    optimizeBones: 1
     meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
@@ -927,6 +1025,7 @@ ModelImporter:
   humanoidOversampling: 1
   avatarSetup: 2
   addHumanoidExtraRootOnlyWhenUsingAvatar: 0
+  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 0
   userData: 
   assetBundleName: 
