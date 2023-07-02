@@ -2,7 +2,7 @@
 Program description: This program just using for demo/learn demo, for only purpose learning and self teaching myself. Main feature: Basic Movement, Basic Rotate Camera, Basic Inverse Kinematic, Basic Interact with interactable items <br />
 Creator: NgocPHV <br />
 Date Created: 27/06/2023 - 17:30 (AM GMT +7) <br />
-Date Updated: 29/06/2023 - 14:21 (PM GMT +7)  <br />
+Date Updated: 02/07/2023 - 16:15 (PM GMT +7)  <br />
 Date Finished: - <br />
 
 # Index content
@@ -14,10 +14,14 @@ Date Finished: - <br />
 * [Demo](#demo)
 
 # General info
-- (*Update soon)
+- Basic Demo for self-teaching myself.
+- User can move, rotate camera, jump, sprint.
+- Feet will dynamic set position depending on ground surface, IK for foot.
 
 # Technologies
-- (*Update soon)
+- This Demo using Unity 2021.3.26f1
+- Unity Package: Cinemachine, Input System, Animation Rigging
+- Unity Asset: Starter Assets - Third Person Character Controller, POLYGON Starter Pack - Low Poly 3D Art by Synty
 
 # Update info
 ## 29/06/2023 - 14:21 (GMT +7):
@@ -25,7 +29,11 @@ Date Finished: - <br />
 - This is still has alot of bug in Foot when go to "Walkable" tag
 
 # Feature
-- (*Update soon)
+- Rotate Camera
+- Character Movement, jump, sprint
+- Interact with interactable item
+- IK Animation
+- IK for Feet
 
 # Explain
 ## Rotation Camera:
@@ -75,4 +83,44 @@ characterController.Move(movement.normalized * speed * Time.deltaTime);
 ```
 
 ## Inverse Kinematic:
+- This IK has two content:
+  * IK animation for interact with interactable object, [IK Animation](#ik-animation)
+  * IK for feet landing in surface, [Foot IK](#foot-ik)
+ 
+### IK Animation:
+- This is using the feature of Unity, Animation Rigging
+- First, Choise "Rig Setup" in Animation Rigging, Unity will automatically create a new script "Rig Builder" and set the Rig setup has been create into <br />
+![Rig Builder setup](./Image/RigBuilderSetting.PNG)
+- Next, create new empty object in "Rig 1" Game Object, in this new empty object, add new Component "Two Bone IK Constraint" <br/ >
+![Two Bone IK Setup](./Image/RightTwoBoneIKConstraint.PNG) <br />
+![Auto create Hint and Target](./Image/HintAndTargetAutoCreate.PNG) <br />
+- Create new animation from this rigs, we wil has the animation like this
+![Animation from rigs](./Gif/AnimationGrabItem.gif)<br />
+- This animation has setting the IK Position on animation Event
+Script (this is animation event in animation)
+```
+//Set position grab item
+private void GrabItemPosition(AnimationEvent animationEvent)
+{
+    RightHandIK.position = _weaponSelect.position;
+}
+//When item in hand, remove collider and set kinematic to true
+private void GrabItemInHand(AnimationEvent animationEvent)
+{
+    _weaponSelect.GetComponent<Collider>().enabled = false;
+    _weaponSelect.GetComponent<Rigidbody>().isKinematic = true;
+    _weaponSelect.parent = RightHandIK;
+    _weaponSelect.localPosition = Vector3.zero;
+    
+}
+//Do something when it finish, grab finish
+private void GrabItemStore(AnimationEvent animationEvent)
+{
+    Destroy(_weaponSelect.gameObject);
+}
+```
 
+### Foot IK:
+
+
+  
