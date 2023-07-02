@@ -129,7 +129,7 @@ This foot IK, has two options for creating this IK:
 - Advance Create, using IK, Raycast, last position to check and set new position, (Advance setting)[#advance-setting]
 
 #### Basic Setting
-(* This setting has been created by reference to this guide: (link)[https://www.youtube.com/watch?v=rGB1ipH6DrM] )
+(* This setting has been created by reference to this guide: [link](https://www.youtube.com/watch?v=rGB1ipH6DrM) )
 - First, need setting the curve for float value that has been set in Animator (the curve setting depending on foot place in animation):
 ![Param in animator](./Image/AnimatorParams.PNG) <br />
 ![Curve Setting in Animation](./Image/CurveSettingSample.PNG) <br />
@@ -169,7 +169,7 @@ if (Physics.Raycast(ray, out hitInfo, _distanceToGround + 1f, _hitLayer))
 - Because this bug/lack of the logic in handle landing of foot, move to next Method will solve this problem
 
 #### Advance Setting
-(* This advance method setting has been guided by this video: (link)
+(* This advance method setting has been guided by this video: [link](https://www.youtube.com/watch?v=MonxKdgxi2w)
 
 
   
