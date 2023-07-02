@@ -169,7 +169,96 @@ if (Physics.Raycast(ray, out hitInfo, _distanceToGround + 1f, _hitLayer))
 - Because this bug/lack of the logic in handle landing of foot, move to next Method will solve this problem
 
 #### Advance Setting
-(* This advance method setting has been guided by this video: [link](https://www.youtube.com/watch?v=MonxKdgxi2w)
+(* This advance method setting has been guided by this video: [link](https://www.youtube.com/watch?v=MonxKdgxi2w) )
+- We need to create a lot of variable to save for value as Foot Position, Foot Rotation, Last Foot Position in Y axis, Last Pelvis Position in Y Axis
+```
+private Vector3 leftFootPosition, rightFootPosition, leftIKFootPosition, rightIKFootPosition;
+private Quaternion leftIKFootRotation, rightIKFootRotation;
+private float lastLeftFootPositionY, lastRightFootPositionY, lastPelvisPositionY;
+```
+- We will handle this foot IK in FixedUpdate and OnAnimationIK, with alot of function need to call to handle it:
+  * Handle Adjust the foot to Right position same with value from IK Position, just change Y axis of it to position of the transform (in Fixed Update)
+  * Handle create a raycast and check the new landing if avaible for it, change the left/right IK position and left/right IK rotation (in Fixed Update)
+  * Handle Move the pelvis position from the last position to new position if has change from offset of the left/right foot (in On Animation IK)
+  * Handle Move the foot to IK Position, this will get all result out from 3 above function, and set new position for foot (in On Animation IK)
+ 
+- Explain Function:
+  * Function Handle Adjust Foot Position: just set foot position to right position in bone animation
+```
+FootPosition = Animator.GetBoneTransform(FootBone).position;
+FootPosition.y = transform.position.y + HeightFromGroundRaycast; //set Foot Position to new Y axis, the height is the available distance raycast can cast
+```
 
+  * Function Handle create new raycast and set the left right IK position and rotation: this is just create the raycast from the position of foot (not IK foot), if this raycast hit the layer that has been set as ground layer -> set new landing position and rotation if available
+```
+//Cast raycast
+if (Physics.Raycast(footPosition, Vector3.down, out hitInfo, HeightFromGroundRaycast * raycastDistance, groundLayer))
+{
+    //set current IK position same data with start position
+    footIKPosition = footPosition;
+    footIKPosition.y = hitInfo.point.y + pelvisOffset;
 
+    //set a new rotation value
+    footIKRotation = Quaternion.FromToRotation(Vector3.up, hitInfo.normal) * transform.rotation;
+    return; //end the setting 
+}
+```
+
+  * Function Move the pelvis height: this function just using for move the Y axis of pelvis depending on surface the foot landing. Create a new pelvis position, value will be set by calculate totaloffset and use this totaloffset add with body position of Animator 
+```
+//Check if Left/Right Foot Position = Vector3 zero or Last Pelvis Position is zero, reset the Last Pelvis position to the Y axis of Body Position of Animator
+... //after set of this if, return, don't run below the code anymore
+
+//Get offset of left/right foot, by using position of Foot IK substract for transform.position.y
+float leftOffset = leftIKFootPosition.y - transform.position.y;
+float rightOffset = rightIKFootPosition.y - transform.position.y;
+//Compare two of above value, if the smallest value is the value has length longest
+float totalOffset = (leftOffset < rightOffset) ? leftOffset : rightOffset;
+
+//Set new Pelvis Position from this totalOffset
+Vector3 newPelvisPosition = Animator.bodyPosition + Vector3.up * totalOffset;
+newPelvisPosition.y = Mathf.Lerp(lastPelvisPositionY, newPelvisPosition.y, pelvisMoveSpeed);
+newPelvisPosition.y = Mathf.Lerp(_lastPelvisPositionY, newPelvisPosition.y, _pelvisUpAndDownSpeed);
+//Set new pelvis position to animator body position
+Animator.bodyPosition = newPelvisPosition;
+lastPelvisPositionY = newPelvisPosition.y;
+```
+
+  * Function Move Foot to IK Position: this function will get all value from the above function, as left/right IK Position, left/right IK Rotation, last left/right position in Y axis as value for set new landing position of foot
+    (this below code will using left foot as example)
+```
+//First of all, check if left/right IK Position using has value != Vector3.zero, if true, the below code will be excuted
+if (leftFootIKPosition != Vector3.zero){
+  //inver Target position and leftFootIKPosition
+  targetPosition = transform.InverseTransformPoint(targetPosition);
+  leftFootIKPosition = transform.InverseTransformPoint(leftFootIKPosition);
+  
+  //Get y variable for add and using for set last y position
+  float yVariable = Mathf.Lerp(lastLeftFootPositionY, leftFootIKPosition.y, footToIKPositionSpeed);
+  targetPosition.y += yVariable;
+  lastLeftFootPositionY = yVariable;
+
+  //Transform the value to transform point value
+  targetPosition = transform.TransformPoint(targetPosition);
+  
+  //Set new rotation from input rotaion
+  Animator.SetIKRotation(footIK, footIKRotation);
+}
+```
+
+- Result:
+![Advance Method FootIK](./Gif/AdvanceFootIKMethod.gif)
+
+# Demo:
+- Movement (Jump logic has some bugs, maybe the reason come from IK foot raycast check logic):
+![Movement](./Gif/Movement.gif)
+
+- Camera Rotate:
+![Camera Rotate)(./Gif/CameraRotate.gif)
+
+- Interact with Item:
+![Interact Item](./Gif/InteractItems.gif)
+
+- Foot IK (Advance Method):
+![Foot IK advance](./Gif/FootIKAvanceMethod.gif)
   
