@@ -125,8 +125,8 @@ private void GrabItemStore(AnimationEvent animationEvent)
 
 ### Foot IK: 
 This foot IK, has two options for creating this IK:
-- Basic Create, just using IK and Raycast, (Basic setting)[#basic-setting]
-- Advance Create, using IK, Raycast, last position to check and set new position, (Advance setting)[#advance-setting]
+- Basic Create, just using IK and Raycast, [Basic setting](#basic-setting)
+- Advance Create, using IK, Raycast, last position to check and set new position, [Advance setting](#advance-setting)
 
 #### Basic Setting
 (* This setting has been created by reference to this guide: [link](https://www.youtube.com/watch?v=rGB1ipH6DrM) )
