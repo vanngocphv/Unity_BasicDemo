@@ -180,6 +180,22 @@ MonoBehaviour:
   _playerAnimator: {fileID: 90255366}
   _playerClip: {fileID: 0}
   _footStepClip: []
+--- !u!114 &90255375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 90255360}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0338ea1049fe344ba6917976924b571, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hitLayer:
+    serializedVersion: 2
+    m_Bits: 1
+  _distanceToGround: 0.06
 --- !u!1 &128089667
 GameObject:
   m_ObjectHideFlags: 0
@@ -2327,6 +2343,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6345894031020550748, guid: b89a84ccfe2446548b921b2a1c152a42,
+        type: 3}
+      propertyPath: m_WarningMessage
+      value: "\nBinding warning: Some generic clip(s) animate transforms that are
+        already bound by a Humanoid avatar. These transforms can only be changed
+        by Humanoid clips.\n\tTransform 'Elbow_R'\n\tTransform 'Shoulder_R'\n\tTransform
+        'Hand_R'\n\tTransform 'Elbow_R'\n\tTransform 'Shoulder_R'\n\tTransform 'Hand_R'\n\tTransform
+        'Elbow_R'\n\tTransform 'Shoulder_R'\n\tTransform 'Hand_R'"
+      objectReference: {fileID: 0}
     - target: {fileID: 6431265357302551702, guid: b89a84ccfe2446548b921b2a1c152a42,
         type: 3}
       propertyPath: m_Name

@@ -326,10 +326,8 @@ public class PlayerMovementIK : MonoBehaviour
             targetPosition.y += yVariable;
             lastFootPositionY = yVariable;
 
-            Debug.Log("Target Position current: " + targetPosition);
             //tranfrom target position to transfrom point position in world space
             targetPosition = transform.TransformPoint(targetPosition);
-            Debug.Log("Target Transfrom Point Position: " + targetPosition);
 
             //Set new rotation from input rotaion
             _playerAnimator.SetIKRotation(footIK, footIKRotation);
