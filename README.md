@@ -130,7 +130,7 @@ This foot IK, has two options for creating this IK:
 
 #### Basic Setting
 (* This setting has been created by reference to this guide: [link](https://www.youtube.com/watch?v=rGB1ipH6DrM) )
-- First, need setting the curve for float value that has been set in Animator (the curve setting depending on foot place in animation):
+- First, need setting the curve for float value that has been set in Animator (the curve setting depending on foot place in animation): <br />
 ![Param in animator](./Image/AnimatorParams.PNG) <br />
 ![Curve Setting in Animation](./Image/CurveSettingSample.PNG) <br />
 - Next, setting in the code:
@@ -163,7 +163,7 @@ if (Physics.Raycast(ray, out hitInfo, _distanceToGround + 1f, _hitLayer))
 //Setting same with leftfoot, but change the left value to right value
 ...
 ```
-- This basic method is very easy to set, but has limit in in realtime action in game action, see this gif:
+- This basic method is very easy to set, but has limit in in realtime action in game action, see this gif: <br />
 ![Basic method Foot IK](./Gif/BasicFootIKMethod.gif)
 ( This Character's foots is placed wrong place, and the model doesn't change to fit with the landing of foot )
 - Because this bug/lack of the logic in handle landing of foot, move to next Method will solve this problem
