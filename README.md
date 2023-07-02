@@ -91,7 +91,7 @@ characterController.Move(movement.normalized * speed * Time.deltaTime);
 - This is using the feature of Unity, Animation Rigging
 - First, Choise "Rig Setup" in Animation Rigging, Unity will automatically create a new script "Rig Builder" and set the Rig setup has been create into <br />
 ![Rig Builder setup](./Image/RigBuilderSetting.PNG)
-- Next, create new empty object in "Rig 1" Game Object, in this new empty object, add new Component "Two Bone IK Constraint" <br/ >
+- Next, create new empty object in "Rig 1" Game Object, in this new empty object, add new Component "Two Bone IK Constraint" <br />
 ![Two Bone IK Setup](./Image/RightTwoBoneIKConstraint.PNG) <br />
 ![Auto create Hint and Target](./Image/HintAndTargetAutoCreate.PNG) <br />
 - Create new animation from this rigs, we wil has the animation like this
