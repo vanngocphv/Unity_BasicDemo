@@ -27,6 +27,9 @@ Date Finished: - <br />
 ## 29/06/2023 - 14:21 (GMT +7):
 - Add Inverse Kinematic for Foot by using Animator IK
 - This is still has alot of bug in Foot when go to "Walkable" tag
+## 02/07/2023 - 16:15 (GMT +7):
+- Add Inverse Kinematic for Foot by using Animator IK with advance method
+- Update Readme.md
 
 # Feature
 - Rotate Camera
@@ -120,7 +123,53 @@ private void GrabItemStore(AnimationEvent animationEvent)
 }
 ```
 
-### Foot IK:
+### Foot IK: 
+This foot IK, has two options for creating this IK:
+- Basic Create, just using IK and Raycast, (Basic setting)[#basic-setting]
+- Advance Create, using IK, Raycast, last position to check and set new position, (Advance setting)[#advance-setting]
+
+#### Basic Setting
+(* This setting has been created by reference to this guide: (link)[https://www.youtube.com/watch?v=rGB1ipH6DrM] )
+- First, need setting the curve for float value that has been set in Animator (the curve setting depending on foot place in animation):
+![Param in animator](./Image/AnimatorParams.PNG) <br />
+![Curve Setting in Animation](./Image/CurveSettingSample.PNG) <br />
+- Next, setting in the code:
+  * Get value to setting for weight in IK Setting (this setting will be set in OnAnimationIK event)
+```
+//Position and Rotation for Left Foot
+Animator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, Animator.GetFloat("IKLeftFoot"));
+Animator.SetIKRotationWeight(AvatarIKGoal.LeftFoot, Animator.GetFloat("IKLeftFoot"));
+//Position and Rotation for Right Foot
+Animator.SetIKPositionWeight(AvatarIKGoal.RightFoot, Animator.GetFloat("IKRightFoot"));
+Animator.SetIKRotationWeight(AvatarIKGoal.RightFoot, Animator.GetFloat("IKRightFoot"));
+```
+  * Create a raycast to check and setting new landing position if available:
+```
+//left foot
+//Create a Ray cast with start position is leftfoot but up -> down
+RaycastHit hitInfo;
+Ray ray = new Ray(Animator.GetIKPosition(AvatarIKGoal.LeftFoot) + Vector3.up, Vector3.down);
+if (Physics.Raycast(ray, out hitInfo, _distanceToGround + 1f, _hitLayer)) 
+{
+    if (hitInfo.transform.gameObject.CompareTag("Walkable"))
+    {
+        Vector3 footPosition = hitInfo.point; //get position of hit value => this is land point for foot
+        footPosition.y += _distanceToGround;
+        Animator.SetIKPosition(AvatarIKGoal.LeftFoot, footPosition);
+        Animator.SetIKRotation(AvatarIKGoal.LeftFoot, Quaternion.LookRotation(transform.forward, hitInfo.normal));
+    }
+}
+//Right foot
+//Setting same with leftfoot, but change the left value to right value
+...
+```
+- This basic method is very easy to set, but has limit in in realtime action in game action, see this gif:
+![Basic method Foot IK](./Gif/BasicFootIKMethod.gif)
+( This Character's foots is placed wrong place, and the model doesn't change to fit with the landing of foot )
+- Because this bug/lack of the logic in handle landing of foot, move to next Method will solve this problem
+
+#### Advance Setting
+(* This advance method setting has been guided by this video: (link)
 
 
   
