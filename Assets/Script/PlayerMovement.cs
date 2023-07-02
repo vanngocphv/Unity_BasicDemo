@@ -14,7 +14,14 @@ public class PlayerMovement : MonoBehaviour
     [Header("Jump value")]
     [SerializeField] private float _jumpHeight = 2f;
     [SerializeField] private float _jumpTime = 0.4f;
-    [SerializeField] private float _jumpCooldownMaxTime = 0.5f;
+    [SerializeField] private float _jumpCooldownMaxTime = 0.3f;
+    [SerializeField] private float _gravity = -15.0f;
+
+    [Header("Grounded")]
+    [SerializeField] private float _groundOffset = -0.14f;
+    [SerializeField] private float _groundedRadius = 0.28f;
+    [SerializeField] private LayerMask _groundLayer;
+    
 
     [Header("Camera Rotate")]
     [SerializeField] private Transform _cameraFollowTarget;
@@ -41,6 +48,8 @@ public class PlayerMovement : MonoBehaviour
     private float _targetRotation;
     private float _animationBlend;
     private float _refVelocity;
+    private float _verticalVelocity;
+    private float _terminateVelocityVertical = 52f;
     private bool _isGround = true;
 
     //animation hash
@@ -65,6 +74,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        CheckGround();
+        ApplyGravity();
+
         //movement hanle
         MovementHandle();
 
@@ -118,13 +130,37 @@ public class PlayerMovement : MonoBehaviour
         }
 
         Vector3 targetDir = Quaternion.Euler(0, _targetRotation, 0) * Vector3.forward;
-        _characterController.Move(targetDir.normalized * _speed * Time.deltaTime);
+        _characterController.Move(targetDir.normalized * _speed * Time.deltaTime +
+                                    new Vector3(0, _verticalVelocity, 0) * Time.deltaTime);
 
         //Set animation
         _playerAnimator.SetFloat(_speedHash, _animationBlend);
         _playerAnimator.SetFloat(_motionSpeedHash, inputMagnitude);
 
     }
+    //check if this object has been touching the ground
+    private void CheckGround()
+    {
+        Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - _groundOffset,
+                transform.position.z);
+        _isGround = Physics.CheckSphere(spherePosition, _groundedRadius, _groundLayer,
+            QueryTriggerInteraction.Ignore);
+        //_isGround = _characterController.isGrounded;
+    }
+    
+    private void ApplyGravity()
+    {
+        if (_isGround)
+        {
+            if (_jumpCooldownTime > 0f) _jumpCooldownTime -= Time.deltaTime;
+            if (_verticalVelocity < 0f) _verticalVelocity = -2f;
+        }
+
+        //
+        if (_verticalVelocity < _terminateVelocityVertical) _verticalVelocity += _gravity * Time.deltaTime;
+
+    }
+
 
     private void RotateCameraHandle()
     {
@@ -159,7 +195,8 @@ public class PlayerMovement : MonoBehaviour
         if (_isGround && _jumpCooldownTime <= 0f)
         {
             //canjump again
-
+            //Set a jump velocity
+            _verticalVelocity = Mathf.Sqrt(_gravity * -2f * _jumpHeight);
 
 
             _jumpCooldownTime = _jumpCooldownMaxTime;
